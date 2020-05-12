@@ -26,10 +26,19 @@ class CPU:
         instructions = []
         for line in program:
             line = line.strip()
+            # take only bytecode, not a comment
             instruction = line.split('#')[0]
-            if instruction == '': continue
+            # print(instruction)
+            if instruction == '':
+                continue
+            # int(x, base)
+            # x - a number or string to be converted to integer object
+            # base - Number format. Default value: 10
             instructions.append(int(instruction, 2))
-        if not len(instructions): self.halted = True
+            # print(instructions)
+        # if there's no instructions -> halt
+        if not len(instructions):
+            self.halted = True
         #insert instructions into ram
         address = 0
 
@@ -72,7 +81,8 @@ class CPU:
             self.reg[reg_a] *= self.reg[reg_b]
         else:
             raise Exception("Unsupported ALU operation")
-
+    
+    # instructions from run()
     def LDI(self):
         self.reg[self.ram_read(self.pc+1)] = self.ram_read(self.pc+2)
         self.pc += 3
